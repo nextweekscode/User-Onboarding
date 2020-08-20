@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from 'react';
-import { v4 as uuid } from 'uuid'
 import Form from './Form'
 import Employee from './Employee'
 import formSchema from './FormSchema'
@@ -8,11 +7,18 @@ import * as yup from 'yup'
 
 
 const initialFormValues = {
-  name: '',
+  first_name: '',
+  email: '',
+  password: '',
+  terms: {
+    yes: false,
+  },
 }
 
 const initialFormErrors = {
-  name: '',
+  first_name: '',
+  email: '',
+  password: '',
 }
 
 const initialEmployees = []
@@ -26,9 +32,11 @@ function App() {
   const [disabled, setDisabled] = useState(initialDisabled)
 
   const getEmployees = () => {
-    axios.get('http://reqres.in/api/users')
+    axios.get('https://reqres.in/api/users')
     .then(res => {
-      setEmployees(res.data)
+      setEmployees(res.data.data)
+      console.log(res.data.data)
+      
     })
     .catch(err => {
       console.log(err)
@@ -36,9 +44,10 @@ function App() {
   }
 
   const postNewEmployee = newEmployee => {
-    axios.post('http://reqres.in/api/users', newEmployee)
+    axios.post('https://reqres.in/api/users', newEmployee)
     .then(res => {
       setEmployees([...employees, res.data])
+      console.log(employees)
     })
     .catch(err => {
       console.log(err)
@@ -70,15 +79,26 @@ function App() {
     })
 }
 
-const checkboxCHange = (name, isChecked) => {
+const checkboxChange = (name, isChecked) => {
+  setFormValues({
+    ...formValues,
+    terms: {
+      ...formValues.terms,
+      [name]: isChecked,
+    }
+  })
 
 }
 
 
 const submit = () => {
   const newEmployee = {
-    name: formValues.name.trim(),
+    first_name: formValues.first_name.trim(),
+    email: formValues.email.trim(),
+    password: formValues.password.trim(),
+    terms: Object.keys(formValues.terms).filter(term => formValues[term])
   }
+  
   postNewEmployee(newEmployee)
 }
 
@@ -100,7 +120,20 @@ useEffect(() => {
     <>
     <div className="container">
       <header><h1>Members App</h1></header>
-     <Form/>
+     <Form
+     values={formValues}
+     inputChange={inputChange}
+     checkboxChange={checkboxChange}
+     submit={submit}
+     disabled={disabled}
+     errors={formErrors}/>
+
+     { 
+      employees.map(emp => {
+       return (
+         <Employee key={emp.id} details={emp}/>
+       )
+     })}
     </div>
     </>
   );
