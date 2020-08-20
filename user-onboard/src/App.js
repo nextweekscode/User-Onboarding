@@ -10,6 +10,7 @@ const initialFormValues = {
   first_name: '',
   email: '',
   password: '',
+  position: '',
   terms: {
     yes: false,
   },
@@ -96,6 +97,7 @@ const submit = () => {
     first_name: formValues.first_name.trim(),
     email: formValues.email.trim(),
     password: formValues.password.trim(),
+    position: formValues.position,
     terms: Object.keys(formValues.terms).filter(term => formValues[term])
   }
   
@@ -131,6 +133,7 @@ useEffect(() => {
      { 
       employees.map(emp => {
        return (
+         
          <Employee key={emp.id} details={emp}/>
        )
      })}

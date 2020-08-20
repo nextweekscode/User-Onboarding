@@ -38,6 +38,7 @@ function Form(props) {
                     <div>{errors.first_name}</div>
                     <div>{errors.email}</div>
                     <div>{errors.password}</div>
+                    <div>{errors.position}</div>
                     <div>{errors.terms}</div>
                 </div>
             </div>
@@ -68,15 +69,28 @@ function Form(props) {
                     name='password'
                     type='text'/>
                 </label>
+                <br/>
+                <label>
+                    Position:
+                    <select onChange={onInputChange}
+                    value={values.position}
+                    name='position'>
+                        <option value=''>--Select a Position--</option>
+                        <option value='manager'>Manager</option>
+                        <option value='parttime'>Part-Time</option>
+                        <option value='fulltime'>Full-Time</option>
+                    </select>
+                </label>
 
                 <div className='form-group checkboxes'>
                     <label>Terms of Service:
                         <input
                         type="checkbox"
                         name="yes"
-                        checked={values.terms.yes}
+                        checked={values.terms.yes === true}
                         onChange={onCheckboxChange}/>
                     </label>
+
                 </div>
 
             </div>

@@ -13,6 +13,10 @@ const formSchema = yup.object().shape({
     .string()
     .min(6, "Password must be at least 6 characters long.")
     .required("Password is required."),
+    position: yup
+    .string()
+    .oneOf(['manager', 'fulltime', 'parttime'], "You must pick a position")
+    .required("Position is required.")
   
 
 
