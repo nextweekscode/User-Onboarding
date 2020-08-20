@@ -32,7 +32,7 @@ function Form(props) {
         <form className='form-container' >
             <div className='form-group submit'>
                 <h2>Add Employee</h2>
-                <button onClick={onSubmit} disabled={disabled}>Submit</button>
+                <button id='cancelBtn' onClick={onSubmit} disabled={disabled}>Submit</button>
 
                 <div className='errors'>
                     <div>{errors.first_name}</div>
